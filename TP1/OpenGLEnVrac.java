@@ -42,14 +42,19 @@ public class OpenGLEnVrac {
     private float xrot;            // X Rotation ( NEW )
     private float yrot;            // Y Rotation ( NEW )
     private float zrot;            // Z Rotation ( NEW )
+    private float x2rot; 
+    private float y2rot; 
+    private float z2rot; 
     private int textureID;         // Storage For One Texture ( NEW )    
 
     private boolean light;         // Lighting ON/OFF    
     
-    private float[] lightAmbient = {1.0f,1.0f,1.0f,1.0f};
-    private float[] lightDiffuse = {1.0f,1.0f,1.0f,1.0f};
+    private float[] lightAmbient = {1.0f,1.0f,1.0f,0.0f};
+    private float[] lightDiffuse = {1.0f,1.0f,1.0f,0.0f};
+    private float[] lightSpecularComponent = {1.0f, 1.0f, 1.0f, 0.0f};
+        
 
-    private float[] lightPosition = {0.0f,0.0f,5.0f,1.0f};
+    private float[] lightPosition = {100f,100f,100f,1.0f};
 
     private boolean filter = false;
     
@@ -140,7 +145,9 @@ public class OpenGLEnVrac {
 
         GL11.glLoadIdentity();                          // Reset The Current Modelview Matrix
 
-        GL11.glTranslatef(0.0f, 0.0f, -6.0f); // Move Into The Screen 5 Units
+        
+        GL11.glTranslatef(1.0f, 0.0f, -6.0f); // Move Into The Screen 5 Units
+        GL11.glPushMatrix();
         GL11.glRotatef(xrot, 1.0f, 0.0f, 0.0f); // Rotate On The X Axis
         GL11.glRotatef(yrot, 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
         GL11.glRotatef(zrot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis        
@@ -161,13 +168,13 @@ public class OpenGLEnVrac {
         //GL11.glColor3f(0.5f,0.5f,0.5f);
         GL11.glNormal3f( 0.0f, 0.0f, 1.0f);
         GL11.glTexCoord2f(0.0f, 1.0f);
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glTexCoord2f(1.0f, 1.0f);
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glTexCoord2f(1.0f, 0.0f);
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
-        GL11.glTexCoord2f(0.0f, 0.0f);
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);// Bottom Left Of The Texture and Quad
+        GL11.glTexCoord2f(1.0f, 1.0f);       
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);// Bottom Right Of The Texture and Quad
+        GL11.glTexCoord2f(1.0f, 0.0f);      
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);// Top Right Of The Texture and Quad
+        GL11.glTexCoord2f(0.0f, 0.0f);        
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);// Top Left Of The Texture and Quad
         // Back Face
         GL11.glNormal3f( 0.0f, 0.0f, -1.0f);        
         GL11.glTexCoord2f(1.0f, 1.0f);
@@ -218,11 +225,75 @@ public class OpenGLEnVrac {
         GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
         GL11.glTexCoord2f(0.0f, 0.0f);
         GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
+        GL11.glEnd(); 
+        
+        
+        xrot += 0.001f; // X Axis Rotation (delta d'animation)
+        yrot += 0.02f; // Y Axis Rotation (delta d'animation)       
+        zrot += 0.0f; // Z Axis Rotation (delta d'animation)
+        
+        GL11.glPopMatrix();
+        GL11.glDisable(GL11.GL_LIGHTING);
+        
+        //Translation du deuxième cube
+        GL11.glTranslatef(-1.5f, 0.0f, 0.5f);         
+        GL11.glRotatef(x2rot, 3.0f, 0.0f, 0.0f); // Rotate On The X Axis
+        GL11.glRotatef(y2rot, 0.0f, 1.0f, 0.0f); // Rotate On The Y Axis
+        GL11.glRotatef(z2rot, 0.0f, 0.0f, 1.0f); // Rotate On The Z Axis 
+        GL11.glBegin(GL11.GL_LINES);
+        // Front Face
+        //GL11.glColor3f(0.5f,0.5f,0.5f);        
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);// Bottom Left Of The Texture and Quad       
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad             
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad         
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);// Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);//Fin
+        // Back Face     
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);// Bottom Right Of The Texture and Quad        
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);// Top Right Of The Texture and Quad             
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);// Top Left Of The Texture and Quad       
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f);// Bottom Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);//Fin
+        
+        // Top Face      
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);// Top Left Of The Texture and Quad            
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);// Bottom Left Of The Texture and Quad           
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);// Bottom Right Of The Texture and Quad           
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);// Top Right Of The Texture and Quad
+         GL11.glVertex3f(-1.0f, 1.0f, -1.0f);//fin
+        // Bottom Face           
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Top Right Of The Texture and Quad            
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f);// Top Left Of The Texture and Quad           
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);// Bottom Left Of The Texture and Quad             
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);// Bottom Right Of The Texture and Quad
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);//fin
+        // Right face 
+        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad        
+        GL11.glVertex3f(1.0f, 1.0f, -1.0f);// Top Right Of The Texture and Quad                
+        GL11.glVertex3f(1.0f, 1.0f, 1.0f);// Top Left Of The Texture and Quad         
+        GL11.glVertex3f(1.0f, -1.0f, 1.0f);// Bottom Left Of The Texture and Quad
+         GL11.glVertex3f(1.0f, -1.0f, -1.0f);//fin
+        // Left Face          
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);// Bottom Left Of The Texture and Quad           
+        GL11.glVertex3f(-1.0f, -1.0f, 1.0f);// Bottom Right Of The Texture and Quad            
+        GL11.glVertex3f(-1.0f, 1.0f, 1.0f);// Top Right Of The Texture and Quad           
+        GL11.glVertex3f(-1.0f, 1.0f, -1.0f);// Top Left Of The Texture and Quad
+        GL11.glVertex3f(-1.0f, -1.0f, -1.0f);//fin        
+        
+        
+        
+        
+        x2rot += 0.00f; // X Axis Rotation (delta d'animation)
+        y2rot += 0.00f; // Y Axis Rotation (delta d'animation)       
+        z2rot += 0.00f; // Z Axis Rotation (delta d'animation)
+        
+        
         GL11.glEnd();
-
-        xrot += 0.001f; // X Axis Rotation
-        yrot += 0.02f; // Y Axis Rotation
-        zrot += 0.0f; // Z Axis Rotation
+        
+        GL11.glEnable(GL11.GL_LIGHTING);
+        
+                
+        
 
         return true;
     }
@@ -244,7 +315,7 @@ public class OpenGLEnVrac {
     private void init() throws Exception {
         createWindow();
         TextureLoader myTextureLoader;
-        BufferedImage image = TextureLoader.loadImage("/TP1/res/logo-uvhc.bmp");//The path is inside the jar file
+        BufferedImage image = TextureLoader.loadImage("/TP1/res/scharpnel.jpg");//The path is inside the jar file
         textureID = TextureLoader.loadTexture(image);        
         initGL();
     }
@@ -282,6 +353,9 @@ public class OpenGLEnVrac {
 
         FloatBuffer buffPosition = BufferUtils.createFloatBuffer(4).put(lightPosition);
         buffPosition.position(0);
+        
+        FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(lightSpecularComponent);
+        buffSpecular.position(0);
                 
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, buffAmbient);
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, buffDiffuse);
