@@ -1,5 +1,11 @@
 package TP3;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
+
+
+
 
 /**
  * Write a description of class LumierePonctuelle here.
@@ -34,7 +40,7 @@ public class LumierePonctuelle extends Lumiere
     {
      super.initialise();
      
-     FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(m_direction);
+     FloatBuffer buffDirection = BufferUtils.createFloatBuffer(4).put(m_direction);
      buffDirection.position(0);
         
                 
