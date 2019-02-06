@@ -50,22 +50,36 @@ public class OpenGLEnVrac {
     private float[] lightDiffuse = {0.5f,0.5f,0.5f,0.0f};
     private float[] lightSpecularComponent = {1.0f,1.0f,1.0f,0.0f};
     
-    private float quadratic_attenuation = 0.01f;
+    //Coefficient d'attenuation de la lumière
+    private float quadratic_attenuation = 0.0f;
     private float linear_attenuation = 0.0f;
     private float constant_attenuation = 1.0f;
 
+    /*
+     * Le dernier composant de ce vecteur indique le type de lumière :
+     * si la valeur est 1.0f, la lumière est ponctuelle. Si sa valeur est à 
+     * 0.0f, la lumière est directionnelle et sa direction est donée par les
+     * trois premières composantes de vecteur. Dans ce cas, lightPosition
+     * définit sa position et éclaire par rapport à l'origine.
+     * Une lumière directionnelle n'est pas bon soumise à l'atténuation.
+     */
+    //Position de la lumière
+    private float[] lightPosition = {0.0f,0.0f,-3.0f,1.0f};
     
-    private float[] lightPosition = {0.0f,0.0f,-7.0f,1.0f};
-    
-    
+    //Paramètres de la lumière
     private float[] no_mat = {0.0f, 0.0f, 0.0f, 1.0f};
     private float[] mat_ambient = {0.3f, 0.3f, 0.3f, 1.0f};
     private float[] mat_diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
-    private float[] mat_specular = {1.0f, 0.0f, 0.0f, 1.0f};
+    private float[] mat_specular = {0.0f, 1.0f, 0.0f, 1.0f};
     private float no_shininess = 0.0f;
     private float low_shininess = 5.0f;
     private float high_shininess = 100.0f;
-    private float[] mat_emission = {0.3f, 0.2f, 0.2f, 0.0f};    
+    private float[] mat_emission = {0.3f, 0.2f, 0.2f, 0.0f};  
+    
+    //Paramètre de la lumière spot
+    private float[] spotDirection = {1.5f, 0.0f, -5.0f, 1.0f};
+    private float spotCutoff = 30.0f;
+    private float spotExponent = 0.0f;
     
 
     private boolean filter = false;
@@ -176,7 +190,6 @@ public class OpenGLEnVrac {
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MAG_FILTER,GL11.GL_NEAREST); // contre l'aliasage proche
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MIN_FILTER,GL11.GL_NEAREST); // contre l'aliasage lointain
         }
-        
         
         GL11.glBegin(GL11.GL_QUADS);
         // Front Face
@@ -316,6 +329,8 @@ public class OpenGLEnVrac {
         // On résactive le mode d'éclairage pour afficher ke cube
         GL11.glEnable(GL11.GL_LIGHTING);        
         
+        
+        
         return true;
     }
     private void createWindow() throws Exception {
@@ -387,6 +402,20 @@ public class OpenGLEnVrac {
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_LINEAR_ATTENUATION, linear_attenuation);
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_QUADRATIC_ATTENUATION, quadratic_attenuation);
 
+        //Bluej a besoin d'un buffer pour créer des vecteur (spot)
+        FloatBuffer buffSpotDirection = BufferUtils.createFloatBuffer(4).put(spotDirection);
+        buffSpotDirection.position(0);
+        
+        FloatBuffer buffSpotCutoff = BufferUtils.createFloatBuffer(4).put(spotCutoff);
+        buffSpotCutoff.position(0);
+        
+        FloatBuffer buffSpotExponent = BufferUtils.createFloatBuffer(4).put(spotExponent);
+        buffSpotExponent.position(0);
+        
+        //Paramètres de spot
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPOT_DIRECTION, buffSpotDirection);
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPOT_CUTOFF, buffSpotCutoff);
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPOT_EXPONENT, buffSpotExponent);
         
         
         GL11.glEnable(GL11.GL_LIGHT1);
