@@ -1,0 +1,27 @@
+#BlueJ package file
+objectbench.height=66
+objectbench.width=917
+package.divider.horizontal=0.6
+package.divider.vertical=0.9246646026831785
+package.editor.height=889
+package.editor.width=804
+package.editor.x=1912
+package.editor.y=0
+package.frame.height=1088
+package.frame.width=976
+package.numDependencies=0
+package.numTargets=1
+package.showExtends=true
+package.showUses=true
+readme.height=58
+readme.name=@README
+readme.width=47
+readme.x=10
+readme.y=10
+target1.height=50
+target1.name=Vecteur2D
+target1.showInterface=false
+target1.type=ClassTarget
+target1.width=90
+target1.x=132
+target1.y=142

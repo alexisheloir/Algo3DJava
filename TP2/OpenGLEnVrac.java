@@ -50,12 +50,16 @@ public class OpenGLEnVrac {
     private float[] lightDiffuse = {0.5f,0.5f,0.5f,0.0f};
     private float[] lightSpecularComponent = {1.0f,1.0f,1.0f,0.0f};
     
-    private float quadratic_attenuation = 0.01f;
+    private float quadratic_attenuation = 0.0f;
     private float linear_attenuation = 0.0f;
     private float constant_attenuation = 1.0f;
 
-    
-    private float[] lightPosition = {0.0f,0.0f,-7.0f,1.0f};
+    // le dernier composant de ce vecteur indique 
+    // le type de lumière : si la valeur est 1.0f, la lumière
+    // est ponctuelle, si sa valeur est 0.0f, la lumière est directionnelle 
+    // et sa direction est donnée par les trois premières composantes du vecteur
+    // une lumière directionelle n'est pas soumise à l'atténuation
+    private float[] lightPosition = {0.0f,0.0f,-3.0f,1.0f}; 
     
     
     private float[] no_mat = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -66,6 +70,10 @@ public class OpenGLEnVrac {
     private float low_shininess = 5.0f;
     private float high_shininess = 100.0f;
     private float[] mat_emission = {0.3f, 0.2f, 0.2f, 0.0f};    
+ 
+    private float[] spotDirection = {1.5f,0.0f,-5.0f,1.0f};
+    private float spotCutoff = 20.0f;
+    private float spotExponent = 1.0f;
     
 
     private boolean filter = false;
@@ -378,6 +386,9 @@ public class OpenGLEnVrac {
         FloatBuffer buffSpecular = BufferUtils.createFloatBuffer(4).put(lightSpecularComponent);
         buffSpecular.position(0);
         
+        FloatBuffer buffSpotDirection = BufferUtils.createFloatBuffer(4).put(spotDirection);
+        buffSpotDirection.position(0);
+        
                 
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, buffAmbient);
         GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, buffDiffuse);
@@ -387,7 +398,9 @@ public class OpenGLEnVrac {
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_LINEAR_ATTENUATION, linear_attenuation);
         GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_QUADRATIC_ATTENUATION, quadratic_attenuation);
 
-        
+        GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPOT_DIRECTION, buffSpotDirection);
+        GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_SPOT_CUTOFF, spotCutoff);
+        GL11.glLightf(GL11.GL_LIGHT1, GL11.GL_SPOT_EXPONENT, spotExponent);
         
         GL11.glEnable(GL11.GL_LIGHT1);
         
