@@ -14,7 +14,7 @@ import java.nio.FloatBuffer;
  * @version (06/02/2018)
  */
 public abstract class Lumiere
-{
+{       
     private float[] m_ambientComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_diffuseComponent = {0.0f,0.0f,0.0f,0.0f};
     private float[] m_specularComponent = {0.0f,0.0f,0.0f,0.0f};

@@ -100,7 +100,7 @@ public class Vecteur2D
      * composantes du vecteur
      * @return    la norme du vecteur
      */
-    public float getMagnitude()
+    public float getNorme()
     {
         // la méthode <b>sqrt</b> du package Math retourne un
         // double : on le transtype en float
