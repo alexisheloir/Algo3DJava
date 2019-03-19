@@ -1,4 +1,4 @@
-package TP3;
+package TP4;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.BufferUtils;
