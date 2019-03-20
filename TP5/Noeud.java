@@ -11,7 +11,7 @@ import java.util.Vector;
  * @author Alexis Heloir
  * @version 20/03/2019
  */
-public class Noeud
+public abstract class Noeud
 {
     //Un noeud peut avoir plusieurs enfants
     Vector<Noeud> m_enfants;
@@ -26,5 +26,21 @@ public class Noeud
     public Noeud(Noeud _parent)
     {
         m_parent = _parent;
+        _parent.ajouterEnfant(this); //Le parent l'ajoute à sa liste d'enfants
     }
+    
+    /**
+     * Ajoute le Noeud _enfant passé en paramètre à la liste d'enfant en attribut.
+     * @param _enfant le noeud enfant à rajouter à la liste d'enfant m_enfants.
+     */
+    public void ajouterEnfant(Noeud _enfant)
+    {
+        m_enfants.add(_enfant);
+    }
+    
+    /**
+     * Méthode abstraite en charge d'appeler les instruction openGL
+     * permettant d'afficher le noeud (même si on ne sait pas encore ce qu'il représente)
+     */
+    public abstract void afficher();    
 }
