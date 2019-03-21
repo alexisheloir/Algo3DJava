@@ -8,16 +8,14 @@ package TP5;
  * @version (a version number or a date)
  */
 public abstract class Monde extends Noeud
-{
-    
+{    
     /**
      * Constructor for objects of class Monde
      */
     public Monde(Noeud _parent)
     {
         super(_parent);
-    }
-    
+    }    
     public void affiche()
     {
     }
