@@ -47,7 +47,7 @@ public class LumiereDirectionelle extends Lumiere
         m_direction[0] = 0.0f;
         m_direction[1] = -1.0f; // les rayons "tombent" verticalement
         m_direction[2] = 0.0f;
-        m_direction[3] = 0.0f;
+        m_direction[3] = -1.0f;
     }    
     
     /**
