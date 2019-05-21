@@ -58,6 +58,23 @@ public class Vecteur3D
         return m_z;
     }
 
+    public void setX(float _x)
+    {
+        m_x = _x;
+    }
+
+    public void setY(float _y)
+    {
+        m_y = _y;
+    }
+
+    public void setZ(float _z)
+    {
+        m_z = _z;
+    }
+    
+    
+    
     /**
      * Cette méthode retourne la norme du vecteur, c'est à 
      * dire la recine carrée de la somme de carrés des trois 

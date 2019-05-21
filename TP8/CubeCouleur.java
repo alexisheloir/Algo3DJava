@@ -1,99 +1,106 @@
-package TP6;
-
+package TP8;
 import org.lwjgl.opengl.GL11;
+import TP6.*;
+import TP4.*;
+
+import java.util.Random;
+
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
 
 /**
- * Write a description of class Cube here.
+ * Write a description of class CubeCouleur here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class CubeFilDeFer extends Objet
+public class CubeCouleur extends Objet
 {
+
+    private Vecteur3D m_couleur; //définit la valeur de la couleur (RGB)
+
+    private Materiau m_materiau;
+    
+    /**
+     * Constructor for objects of class Cube
+     */
+    public CubeCouleur(Noeud _parent, Vecteur3D _couleur)
+    {
+        super(_parent);
+        m_materiau = new Materiau(0.0f,0.0f,0.0f,_couleur.getX(),_couleur.getY(),_couleur.getZ(),0.5f,0.5f,0.5f,0.01f);
+        m_couleur = _couleur;
+    }
 
     /**
      * Constructor for objects of class Cube
      */
-    public CubeFilDeFer(Noeud _parent)
+    public CubeCouleur(Noeud _parent)
     {
         super(_parent);
-    }
-
+        Random rand = new Random();
+        m_materiau = new Materiau(0.0f,0.0f,0.0f,rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),rand.nextFloat(),rand.nextFloat());
+    }    
+    
     /**
      * Cette mï¿½thode utilise une suite d'instructions OpenGL perettant d'afficher un cube.
      * Vous trouverez ces instructions dans la clase OpenGL en vrac du package TP2.
      */
     public void dessine(){
 
-        //On change la couleur pour dessiner le cube fil de fer dans la couleur dessinée
-        
-        
-        // On désactive le mode d'éclairage pour afficher des lignes
+        //On change la couleur pour dessiner le cube fil de fer dans la couleur dessinée    
         GL11.glDisable(GL11.GL_LIGHTING);
-
         
-        GL11.glBegin(GL11.GL_LINES);
 
+        //GL11.glMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT, m_materiau.getAmbient());
+        //GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, m_materiau.getDiff());
+        //GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, m_materiau.getSpec());
+        //GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS,  m_materiau.getShinisess()*128.0f);        
+        
+        GL11.glColor3f(m_couleur.getX(),m_couleur.getY(),m_couleur.getZ());  
+        
+        GL11.glBegin(GL11.GL_QUADS); // on change la couleur de dessin avant de dessiner le cube
+
+        GL11.glNormal3f(0.0f, 0.0f, 1.0f);
         GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad        
         GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
         GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad        
-        
+
         // Back Face
+        GL11.glNormal3f(0.0f, 0.0f, -1.0f);
         GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
         GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
-        // Top Face      
+
+        // Top Face        
+        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
         GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Bottom Right Of The Texture and Quad
         GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Bottom Right Of The Texture and Quad
         GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
         // Bottom Face
+        GL11.glNormal3f(0.0f, -1.0f, 0.0f);
         GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Top Right Of The Texture and Quad
         GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
         GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Top Right Of The Texture and Quad
-        // Right face      
+        // Right face
+        GL11.glNormal3f(1.0f, 0.0f, 0.0f);
         GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
         GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, -1.0f); // Top Right Of The Texture and Quad
-        GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
         GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glVertex3f(1.0f, -1.0f, -1.0f); // Bottom Right Of The Texture and Quad
         // Left Face
+        GL11.glNormal3f(-1.0f, 0.0f, 0.0f);
         GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
         GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
         GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
         GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, 1.0f, -1.0f); // Top Left Of The Texture and Quad
-        GL11.glVertex3f(-1.0f, -1.0f, -1.0f); // Bottom Left Of The Texture and Quad
+
         GL11.glEnd();
         
-        // On résactive le mode d'éclairage pour afficher ke cube
-        GL11.glEnable(GL11.GL_LIGHTING);        
-        
-        
+        GL11.glColor3f(1.0f,1.0f,1.0f); // on remet la couleur de dessin à la couleur blanche une fois dessiné
+        //GL11.glEnable(GL11.GL_LIGHTING);
     }
-    
 }

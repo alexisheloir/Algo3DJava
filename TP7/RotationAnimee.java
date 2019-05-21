@@ -29,7 +29,7 @@ public class RotationAnimee extends Rotation
     {
         super(_parent, _axe, _angle);
         m_intervalleEnMS = _intervalleEnMS;
-        m_horloge = Horloge.getInstance();
+        m_horloge = new Horloge();
         m_angleInitial = m_angle;
     }
 

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class CubeTexture extends Objet
+public class CubeTextureParFaceFlat extends Objet
 {
 
     private int m_textureID;         // Storage For One Texture ( NEW )            
@@ -22,7 +22,7 @@ public class CubeTexture extends Objet
      * @param _parent le noeud parent dans le graphe de scène
      * @param _texturePath le chemin vers la texture à appliquer au cube
      */
-    public CubeTexture(Noeud _parent, String _texturePath)
+    public CubeTextureParFaceFlat(Noeud _parent, String _texturePath)
     {
         super(_parent);        
         TextureLoader myTextureLoader;
@@ -35,12 +35,12 @@ public class CubeTexture extends Objet
     /**
      * Constructor for objects of class CubeTexture
      */
-    public CubeTexture(Noeud _parent)
+    public CubeTextureParFaceFlat(Noeud _parent)
     {
         super(_parent);
         
         TextureLoader myTextureLoader;
-        BufferedImage image = TextureLoader.loadImage("/TP1/res/logo-uvhc.bmp");//The path is inside the jar file
+        BufferedImage image = TextureLoader.loadImage("/TP6/res/cubemap.png");//The path is inside the jar file
         m_textureID = TextureLoader.loadTexture(image);
 
         
@@ -58,13 +58,13 @@ public class CubeTexture extends Objet
         // Front Face
         //GL11.glColor3f(0.5f,0.5f,0.5f);
         GL11.glNormal3f( 0.0f, 0.0f, 1.0f);
-        GL11.glTexCoord2f(0.0f, 1.0f);
+        GL11.glTexCoord2f(0.0f, 0.666f);
         GL11.glVertex3f(-1.0f, -1.0f, 1.0f); // Bottom Left Of The Texture and Quad
-        GL11.glTexCoord2f(1.0f, 1.0f);
+        GL11.glTexCoord2f(0.25f, 0.66f);
         GL11.glVertex3f(1.0f, -1.0f, 1.0f); // Bottom Right Of The Texture and Quad
-        GL11.glTexCoord2f(1.0f, 0.0f);
+        GL11.glTexCoord2f(0.25f, 0.33f);
         GL11.glVertex3f(1.0f, 1.0f, 1.0f); // Top Right Of The Texture and Quad
-        GL11.glTexCoord2f(0.0f, 0.0f);
+        GL11.glTexCoord2f(0.0f, 0.33f);
         GL11.glVertex3f(-1.0f, 1.0f, 1.0f); // Top Left Of The Texture and Quad
         // Back Face
         GL11.glNormal3f( 0.0f, 0.0f, -1.0f);        

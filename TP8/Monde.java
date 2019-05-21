@@ -1,4 +1,4 @@
-package TP6;
+package TP8;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -12,9 +12,12 @@ import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
 
 import TP4.*;
+import TP6.*;
+import TP7.*;
 
 import java.io.*;
 
+import java.util.*;
 
 /**
  * La classe Monde est le noeud primordial à l'origine du graphe
@@ -150,7 +153,7 @@ public class Monde extends Noeud
           45.0f,
           (float) m_displayMode.getWidth() / (float) m_displayMode.getHeight(),
           0.1f,
-          100.0f);
+          2000.0f);
 
         GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
         
@@ -162,60 +165,61 @@ public class Monde extends Noeud
     }
 
     private void prepareScene(){
-        Vecteur3D vecteur0 = new Vecteur3D(0.0f,-5.0f,-16.0f);
+        
+        Random rand = new Random();
+        
+        Vecteur3D vecteur0 = new Vecteur3D(0.0f,-0.0f,-100.0f);
         Transformation translation0 = new Translation(this, vecteur0);
-        CubeTextureFlat cube0 = new CubeTextureFlat(translation0);
+        RotationAnimee rotation = new RotationAnimee(translation0, new Vecteur3D(0.0f,1.0f,0.0f), 90.0f, 5000);
         
-        Vecteur3D vecteur1 = new Vecteur3D(-4.0f,0.0f,0.0f);
-        Transformation translation1 = new Translation(translation0, vecteur1);        
-        CubeTextureFlat cube1 = new CubeTextureFlat(translation1);
+        CarreCouleur myCarreCouleur = new CarreCouleur(rotation);
         
-        Vecteur3D vecteur2 = new Vecteur3D(-2.0f,0.0f,0.0f);
-        Transformation translation2 = new Translation(translation0, vecteur2);        
-        CubeTextureFlat cube2 = new CubeTextureFlat(translation2);
+        // CubeTexture cube0 = new CubeTexture(rotation,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+        
+        // Vecteur3D vecteur1 = new Vecteur3D(-4.0f,0.0f,0.0f);
+        // Transformation translation1 = new Translation(rotation, vecteur1);        
+        // CubeTexture cube1 = new CubeTexture(translation1,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+        
+        // Vecteur3D vecteur2 = new Vecteur3D(-2.0f,0.0f,0.0f);
+        // Transformation translation2 = new Translation(rotation, vecteur2);        
+        // CubeTexture cube2 = new CubeTexture(translation2,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
 
-        Vecteur3D vecteur3 = new Vecteur3D(2.0f,0.0f,0.0f);
-        Transformation translation3 = new Translation(translation0, vecteur3);        
-        CubeTextureFlat cube3 = new CubeTextureFlat(translation3);        
+        // Vecteur3D vecteur3 = new Vecteur3D(2.0f,0.0f,0.0f);
+        // Transformation translation3 = new Translation(rotation, vecteur3);        
+        // CubeTexture cube3 = new CubeTexture(translation3,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));        
 
-        Vecteur3D vecteur4 = new Vecteur3D(4.0f,0.0f,0.0f);
-        Transformation translation4 = new Translation(translation0, vecteur4);        
-        CubeTextureFlat cube4 = new CubeTextureFlat(translation4);
+        // Vecteur3D vecteur4 = new Vecteur3D(4.0f,0.0f,0.0f);
+        // Transformation translation4 = new Translation(rotation, vecteur4);        
+        // CubeTexture cube4 = new CubeTexture(translation4,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
         
-        Vecteur3D vecteur5 = new Vecteur3D(-2.0f,2.0f,0.0f);
-        Transformation translation5 = new Translation(translation0, vecteur5);        
-        CubeTextureFlat cube5 = new CubeTextureFlat(translation5);
+        // Vecteur3D vecteur5 = new Vecteur3D(-2.0f,2.0f,0.0f);
+        // Transformation translation5 = new Translation(rotation, vecteur5);        
+        // CubeTexture cube5 = new CubeTexture(translation5,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
         
-        Vecteur3D vecteur6 = new Vecteur3D(0.0f,2.0f,0.0f);
-        Transformation translation6 = new Translation(translation0, vecteur6);        
-        CubeTextureFlat cube6 = new CubeTextureFlat(translation6); 
+        // Vecteur3D vecteur6 = new Vecteur3D(0.0f,2.0f,0.0f);
+        // Transformation translation6 = new Translation(rotation, vecteur6);        
+        // CubeTexture cube6 = new CubeTexture(translation6,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat())); 
 
-        Vecteur3D vecteur7 = new Vecteur3D(2.0f,2.0f,0.0f);
-        Transformation translation7 = new Translation(translation0, vecteur7);        
-        CubeTextureFlat cube7 = new CubeTextureFlat(translation7); 
+        // Vecteur3D vecteur7 = new Vecteur3D(2.0f,2.0f,0.0f);
+        // Transformation translation7 = new Translation(rotation, vecteur7);        
+        // CubeTexture cube7 = new CubeTexture(translation7,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat())); 
 
-        Vecteur3D vecteur8 = new Vecteur3D(0.0f,4.0f,0.0f);
-        Transformation translation8 = new Translation(translation0, vecteur8);        
-        CubeTextureFlat cube8 = new CubeTextureFlat(translation8);
+        // Vecteur3D vecteur8 = new Vecteur3D(0.0f,4.0f,0.0f);
+        // Transformation translation8 = new Translation(rotation, vecteur8);        
+        // CubeTexture cube8 = new CubeTexture(translation8,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
         
-        Vecteur3D vecteur9 = new Vecteur3D(0.0f,5.5f,0.0f);
-        Transformation translation9 = new Translation(translation0, vecteur9);
-        Vecteur3D vecteurEchelle9 = new Vecteur3D(0.5f,0.5f,0.5f);        
-        Echelle echelle9 = new Echelle(translation9,vecteurEchelle9);
-        CubeTextureFlat cube9 = new CubeTextureFlat(echelle9);
+        // Vecteur3D vecteur9 = new Vecteur3D(0.0f,5.5f,0.0f);
+        // Transformation translation9 = new Translation(rotation, vecteur9);
+        // Vecteur3D vecteurEchelle9 = new Vecteur3D(0.5f,0.5f,0.5f);        
+        // Echelle echelle9 = new Echelle(translation9,vecteurEchelle9);
+        // CubeTexture cube9 = new CubeTexture(echelle9,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
         
-        Vecteur3D vecteur10 = new Vecteur3D(0.0f,6.25f,0.0f);
-        Transformation translation10 = new Translation(translation0, vecteur10);
-        Vecteur3D vecteurEchelle10 = new Vecteur3D(0.25f,0.25f,0.25f);        
-        Echelle echelle10 = new Echelle(translation10,vecteurEchelle10);
-        CubeTextureFlat cube10 = new CubeTextureFlat(echelle10);
-        
-        
-        Vecteur3D vecteur11 = new Vecteur3D(0.0f,8.0f,0.0f);
-
-        Transformation translation11 = new Translation(translation0, vecteur11);        
-        Rotation rotation11 = new Rotation(translation11, new Vecteur3D(0.0f,1.0f,0.0f), 45.0f);
-        CubeTextureParFaceFlat cube11 = new CubeTextureParFaceFlat(rotation11);        
+        // Vecteur3D vecteur10 = new Vecteur3D(0.0f,6.25f,0.0f);
+        // Transformation translation10 = new Translation(rotation, vecteur10);
+        // Vecteur3D vecteurEchelle10 = new Vecteur3D(0.25f,0.25f,0.25f);        
+        // Echelle echelle10 = new Echelle(translation10,vecteurEchelle10);
+        // CubeTexture cube10 = new CubeTexture(echelle10,new Vecteur3D(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+              
     }
     
     private void createWindow() throws Exception {
