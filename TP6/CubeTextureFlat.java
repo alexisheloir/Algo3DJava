@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.image.BufferedImage;
 
+import java.util.HashMap;
 
 /**
  * Write a description of class CubeTexture here.
@@ -14,8 +15,8 @@ import java.awt.image.BufferedImage;
 public class CubeTextureFlat extends Objet
 {
 
-    private int m_textureID;         // Storage For One Texture ( NEW )            
-
+private String m_imagePath;
+private static HashMap<String,Integer> m_textureDict = new HashMap<String,Integer>();
     /**
      * Constructeur de CubeTexture prenant en paramètre une chemin vers une texture.
      * Cette texture sera propre au cube.
@@ -24,10 +25,15 @@ public class CubeTextureFlat extends Objet
      */
     public CubeTextureFlat(Noeud _parent, String _texturePath)
     {
-        super(_parent);        
-        TextureLoader myTextureLoader;
-        BufferedImage image = TextureLoader.loadImage(_texturePath);//The path is inside the jar file
-        m_textureID = TextureLoader.loadTexture(image);
+        super(_parent);
+        if ( m_textureDict.get(_texturePath) == null )
+        {
+            TextureLoader myTextureLoader;
+            BufferedImage image = TextureLoader.loadImage(_texturePath);//The path is inside the jar file
+            m_textureDict.put(_texturePath, TextureLoader.loadTexture(image));
+        }
+        m_imagePath = _texturePath;
+
     }
     
     
@@ -37,12 +43,17 @@ public class CubeTextureFlat extends Objet
      */
     public CubeTextureFlat(Noeud _parent)
     {
-        super(_parent);
-        
-        TextureLoader myTextureLoader;
-        BufferedImage image = TextureLoader.loadImage("/TP1/res/logo-uvhc.bmp");//The path is inside the jar file
-        m_textureID = TextureLoader.loadTexture(image);
 
+        super(_parent);
+        if ( m_textureDict.get("/TP1/res/logo-uvhc.bmp") == null )
+        {
+            TextureLoader myTextureLoader;
+            BufferedImage image = TextureLoader.loadImage("/TP1/res/logo-uvhc.bmp");//The path is inside the jar file
+            m_textureDict.put("/TP1/res/logo-uvhc.bmp", TextureLoader.loadTexture(image));
+        }
+        m_imagePath = "/TP1/res/logo-uvhc.bmp";
+        
+        
         
     }
 
@@ -52,7 +63,7 @@ public class CubeTextureFlat extends Objet
      */
     public void dessine(){
         
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, m_textureID); // Select Our Texture        
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, m_textureDict.get(m_imagePath)); // Select Our Texture        
         
         GL11.glBegin(GL11.GL_QUADS);
         // Front Face
