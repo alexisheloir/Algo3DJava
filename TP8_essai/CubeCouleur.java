@@ -1,4 +1,4 @@
-package TP8;
+package TP8_essai;
 
 import TP6.*;
 import TP4.*;

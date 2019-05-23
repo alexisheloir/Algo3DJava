@@ -1,4 +1,4 @@
-package TP8;
+package TP8_essai;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
